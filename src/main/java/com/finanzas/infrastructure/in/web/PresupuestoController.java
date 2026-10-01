@@ -1,7 +1,7 @@
 package com.finanzas.infrastructure.in.web;
 
 import com.finanzas.application.dto.ComandoCrearPresupuesto;
-import com.finanzas.application.port.in.GestionarPresupuestoCasoUso;
+import com.finanzas.application.port.in.GestionarPresupuestoUseCase;
 import com.finanzas.infrastructure.in.web.dto.RespuestaPresupuesto;
 import com.finanzas.infrastructure.in.web.dto.SolicitudCrearPresupuesto;
 import com.finanzas.infrastructure.security.UsuarioAutenticado;
@@ -21,9 +21,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/presupuestos")
 @RequiredArgsConstructor
-public class PresupuestoControlador {
+public class PresupuestoController {
 
-    private final GestionarPresupuestoCasoUso gestionarPresupuestoCasoUso;
+    private final GestionarPresupuestoUseCase gestionarPresupuestoUseCase;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -31,7 +31,7 @@ public class PresupuestoControlador {
             @AuthenticationPrincipal UsuarioAutenticado usuario,
             @Valid @RequestBody SolicitudCrearPresupuesto solicitud
     ) {
-        var presupuesto = gestionarPresupuestoCasoUso.crear(new ComandoCrearPresupuesto(
+        var presupuesto = gestionarPresupuestoUseCase.crear(new ComandoCrearPresupuesto(
                 usuario.id(),
                 solicitud.categoria(),
                 solicitud.montoLimite(),
@@ -52,7 +52,7 @@ public class PresupuestoControlador {
 
     @GetMapping
     public List<RespuestaPresupuesto> listar(@AuthenticationPrincipal UsuarioAutenticado usuario) {
-        return gestionarPresupuestoCasoUso.listarPorUsuario(usuario.id()).stream()
+        return gestionarPresupuestoUseCase.listarPorUsuario(usuario.id()).stream()
                 .map(p -> new RespuestaPresupuesto(
                         p.id(),
                         p.usuarioId(),

@@ -1,11 +1,13 @@
 # SKILLS.MD - PLANTILLAS
 
-### Plantilla de Caso de Uso
+> Convención de nombres: los términos de negocio y los DTOs se escriben en español; los términos arquitectónicos se escriben en inglés (`UseCase`, `OutPort`, `InPort`, `Service`, `Controller`, `Adapter`, `JpaEntity`, `Repository`, `Mapper`, `Application`).
+
+### Plantilla de Caso de Uso (puerto de entrada)
 
 ```java
 package com.finanzas.application.port.in;
 
-public interface [Nombre]CasoUso {
+public interface [Nombre]UseCase {
     [Resultado] ejecutar([Comando] comando);
 }
 ```
@@ -15,7 +17,7 @@ public interface [Nombre]CasoUso {
 ```java
 package com.finanzas.application.port.out;
 
-public interface [Nombre]PuertoSalida {
+public interface [Nombre]OutPort {
     [Dominio] guardar([Dominio] dominio);
 }
 ```
@@ -25,7 +27,7 @@ public interface [Nombre]PuertoSalida {
 ```java
 package com.finanzas.application.service;
 
-import com.finanzas.application.port.in.[Nombre]CasoUso;
+import com.finanzas.application.port.in.[Nombre]UseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class [Nombre]Servicio implements [Nombre]CasoUso {
+public class [Nombre]Service implements [Nombre]UseCase {
 
     @Override
     public [Resultado] ejecutar([Comando] comando) {
@@ -51,8 +53,8 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface [Nombre]Mapper {
-    [Dominio] aDominio([EntidadJpa] entidadJpa);
-    [EntidadJpa] aEntidadJpa([Dominio] dominio);
+    [Dominio] aDominio([Nombre]JpaEntity entidadJpa);
+    [Nombre]JpaEntity aEntidadJpa([Dominio] dominio);
 }
 ```
 
@@ -72,7 +74,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class [Nombre]EntidadJpa {
+public class [Nombre]JpaEntity {
 }
 ```
 
@@ -88,6 +90,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/[recurso]")
 @RequiredArgsConstructor
-public class [Nombre]Controlador {
+public class [Nombre]Controller {
+}
+```
+
+### Plantilla de Adaptador de Salida
+
+```java
+package com.finanzas.infrastructure.out.db;
+
+import com.finanzas.application.port.out.[Nombre]OutPort;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+@Component
+@RequiredArgsConstructor
+public class [Nombre]DbAdapter implements [Nombre]OutPort {
 }
 ```

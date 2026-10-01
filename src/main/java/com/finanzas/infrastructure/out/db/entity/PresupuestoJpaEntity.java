@@ -22,7 +22,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PresupuestoEntidadJpa {
+public class PresupuestoJpaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

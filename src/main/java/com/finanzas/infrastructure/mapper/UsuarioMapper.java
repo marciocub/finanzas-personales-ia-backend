@@ -1,13 +1,13 @@
 package com.finanzas.infrastructure.mapper;
 
 import com.finanzas.domain.model.Usuario;
-import com.finanzas.infrastructure.out.db.entity.UsuarioEntidadJpa;
+import com.finanzas.infrastructure.out.db.entity.UsuarioJpaEntity;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface UsuarioMapper {
 
-    Usuario aDominio(UsuarioEntidadJpa entidadJpa);
+    Usuario aDominio(UsuarioJpaEntity entidadJpa);
 
-    UsuarioEntidadJpa aEntidadJpa(Usuario dominio);
+    UsuarioJpaEntity aEntidadJpa(Usuario dominio);
 }

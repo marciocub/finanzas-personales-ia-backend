@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface TransaccionPuertoSalida {
+public interface TransaccionOutPort {
     Transaccion guardar(Transaccion transaccion);
 
     List<Transaccion> buscarPorCriterio(CriterioFiltroTransaccion criterio);

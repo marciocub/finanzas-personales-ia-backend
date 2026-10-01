@@ -2,7 +2,7 @@ package com.finanzas.infrastructure.mapper;
 
 import com.finanzas.domain.model.Dinero;
 import com.finanzas.domain.model.Presupuesto;
-import com.finanzas.infrastructure.out.db.entity.PresupuestoEntidadJpa;
+import com.finanzas.infrastructure.out.db.entity.PresupuestoJpaEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -10,13 +10,13 @@ import org.mapstruct.Mapping;
 public interface PresupuestoMapper {
 
     @Mapping(target = "montoLimite", expression = "java(aDinero(entidadJpa))")
-    Presupuesto aDominio(PresupuestoEntidadJpa entidadJpa);
+    Presupuesto aDominio(PresupuestoJpaEntity entidadJpa);
 
     @Mapping(target = "montoLimite", source = "montoLimite.monto")
     @Mapping(target = "moneda", source = "montoLimite.moneda")
-    PresupuestoEntidadJpa aEntidadJpa(Presupuesto dominio);
+    PresupuestoJpaEntity aEntidadJpa(Presupuesto dominio);
 
-    default Dinero aDinero(PresupuestoEntidadJpa entidadJpa) {
+    default Dinero aDinero(PresupuestoJpaEntity entidadJpa) {
         return Dinero.de(entidadJpa.getMontoLimite(), entidadJpa.getMoneda());
     }
 }

@@ -1,8 +1,8 @@
 package com.finanzas.application.service;
 
 import com.finanzas.application.dto.ComandoCrearPresupuesto;
-import com.finanzas.application.port.in.GestionarPresupuestoCasoUso;
-import com.finanzas.application.port.out.PresupuestoPuertoSalida;
+import com.finanzas.application.port.in.GestionarPresupuestoUseCase;
+import com.finanzas.application.port.out.PresupuestoOutPort;
 import com.finanzas.domain.model.Dinero;
 import com.finanzas.domain.model.Presupuesto;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +14,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class PresupuestoServicio implements GestionarPresupuestoCasoUso {
+public class PresupuestoService implements GestionarPresupuestoUseCase {
 
-    private final PresupuestoPuertoSalida presupuestoPuertoSalida;
+    private final PresupuestoOutPort presupuestoOutPort;
 
     @Override
     public Presupuesto crear(ComandoCrearPresupuesto comando) {
@@ -28,12 +28,12 @@ public class PresupuestoServicio implements GestionarPresupuestoCasoUso {
                 comando.fechaInicio(),
                 comando.fechaFin()
         );
-        return presupuestoPuertoSalida.guardar(presupuesto);
+        return presupuestoOutPort.guardar(presupuesto);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Presupuesto> listarPorUsuario(Long usuarioId) {
-        return presupuestoPuertoSalida.buscarPorUsuario(usuarioId);
+        return presupuestoOutPort.buscarPorUsuario(usuarioId);
     }
 }

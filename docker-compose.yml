@@ -12,7 +12,7 @@ services:
       - "3310:3306"
     volumes:
       - volumen_mysql_finanzas:/var/lib/mysql
-      - ./finanzas-backend/src/main/resources/db/script-creacion.sql:/docker-entrypoint-initdb.d/01-script-creacion.sql:ro
+      - ./src/main/resources/db/script-creacion.sql:/docker-entrypoint-initdb.d/01-script-creacion.sql:ro
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
       interval: 10s
@@ -21,7 +21,7 @@ services:
 
   backend:
     build:
-      context: ./finanzas-backend
+      context: .
       dockerfile: Dockerfile
     container_name: finanzas-backend
     restart: unless-stopped
@@ -39,7 +39,7 @@ services:
 
   frontend:
     build:
-      context: ./finanzas-frontend
+      context: ../finanzas-personales-ia-frontend
       dockerfile: Dockerfile
     container_name: finanzas-frontend
     restart: unless-stopped

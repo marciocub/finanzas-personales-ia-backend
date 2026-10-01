@@ -1,6 +1,6 @@
 package com.finanzas.infrastructure.security;
 
-import com.finanzas.application.port.out.GeneradorTokenPuertoSalida;
+import com.finanzas.application.port.out.GeneradorTokenOutPort;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
-public class ProveedorJwt implements GeneradorTokenPuertoSalida {
+public class ProveedorJwt implements GeneradorTokenOutPort {
 
     private final SecretKey claveSecreta;
     private final long expiracionMs;

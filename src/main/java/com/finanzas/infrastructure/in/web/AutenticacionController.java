@@ -2,7 +2,7 @@ package com.finanzas.infrastructure.in.web;
 
 import com.finanzas.application.dto.ComandoInicioSesion;
 import com.finanzas.application.dto.ComandoRegistro;
-import com.finanzas.application.port.in.AutenticacionCasoUso;
+import com.finanzas.application.port.in.AutenticacionUseCase;
 import com.finanzas.infrastructure.in.web.dto.RespuestaAutenticacion;
 import com.finanzas.infrastructure.in.web.dto.SolicitudInicioSesion;
 import com.finanzas.infrastructure.in.web.dto.SolicitudRegistro;
@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/autenticacion")
 @RequiredArgsConstructor
-public class AutenticacionControlador {
+public class AutenticacionController {
 
-    private final AutenticacionCasoUso autenticacionCasoUso;
+    private final AutenticacionUseCase autenticacionUseCase;
 
     @PostMapping("/registro")
     @ResponseStatus(HttpStatus.CREATED)
     public RespuestaAutenticacion registrar(@Valid @RequestBody SolicitudRegistro solicitud) {
-        var resultado = autenticacionCasoUso.registrar(
+        var resultado = autenticacionUseCase.registrar(
                 new ComandoRegistro(solicitud.correo(), solicitud.clave(), solicitud.monedaPrincipal())
         );
         return new RespuestaAutenticacion(
@@ -35,7 +35,7 @@ public class AutenticacionControlador {
 
     @PostMapping("/inicio-sesion")
     public RespuestaAutenticacion iniciarSesion(@Valid @RequestBody SolicitudInicioSesion solicitud) {
-        var resultado = autenticacionCasoUso.iniciarSesion(
+        var resultado = autenticacionUseCase.iniciarSesion(
                 new ComandoInicioSesion(solicitud.correo(), solicitud.clave())
         );
         return new RespuestaAutenticacion(

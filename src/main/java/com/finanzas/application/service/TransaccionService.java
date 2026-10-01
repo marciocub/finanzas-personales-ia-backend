@@ -3,10 +3,10 @@ package com.finanzas.application.service;
 import com.finanzas.application.dto.ComandoCrearTransaccion;
 import com.finanzas.application.dto.CriterioFiltroTransaccion;
 import com.finanzas.application.dto.ResumenTransacciones;
-import com.finanzas.application.port.in.CrearTransaccionCasoUso;
-import com.finanzas.application.port.in.ObtenerResumenTransaccionesCasoUso;
-import com.finanzas.application.port.out.PresupuestoPuertoSalida;
-import com.finanzas.application.port.out.TransaccionPuertoSalida;
+import com.finanzas.application.port.in.CrearTransaccionUseCase;
+import com.finanzas.application.port.in.ObtenerResumenTransaccionesUseCase;
+import com.finanzas.application.port.out.PresupuestoOutPort;
+import com.finanzas.application.port.out.TransaccionOutPort;
 import com.finanzas.domain.enumeration.TipoTransaccion;
 import com.finanzas.domain.model.Dinero;
 import com.finanzas.domain.model.Transaccion;
@@ -20,10 +20,10 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class TransaccionServicio implements CrearTransaccionCasoUso, ObtenerResumenTransaccionesCasoUso {
+public class TransaccionService implements CrearTransaccionUseCase, ObtenerResumenTransaccionesUseCase {
 
-    private final TransaccionPuertoSalida transaccionPuertoSalida;
-    private final PresupuestoPuertoSalida presupuestoPuertoSalida;
+    private final TransaccionOutPort transaccionOutPort;
+    private final PresupuestoOutPort presupuestoOutPort;
 
     @Override
     public Transaccion ejecutar(ComandoCrearTransaccion comando) {
@@ -38,10 +38,10 @@ public class TransaccionServicio implements CrearTransaccionCasoUso, ObtenerResu
         );
 
         if (transaccion.esGasto()) {
-            presupuestoPuertoSalida
+            presupuestoOutPort
                     .buscarVigente(transaccion.usuarioId(), transaccion.categoria(), transaccion.fecha().toLocalDate())
                     .ifPresent(presupuesto -> {
-                        BigDecimal totalGastado = transaccionPuertoSalida.sumarGastosPorCategoriaYPeriodo(
+                        BigDecimal totalGastado = transaccionOutPort.sumarGastosPorCategoriaYPeriodo(
                                 transaccion.usuarioId(),
                                 transaccion.categoria(),
                                 presupuesto.fechaInicio().atStartOfDay(),
@@ -51,13 +51,13 @@ public class TransaccionServicio implements CrearTransaccionCasoUso, ObtenerResu
                     });
         }
 
-        return transaccionPuertoSalida.guardar(transaccion);
+        return transaccionOutPort.guardar(transaccion);
     }
 
     @Override
     @Transactional(readOnly = true)
     public ResumenTransacciones ejecutar(CriterioFiltroTransaccion criterio) {
-        var transacciones = transaccionPuertoSalida.buscarPorCriterio(criterio);
+        var transacciones = transaccionOutPort.buscarPorCriterio(criterio);
 
         BigDecimal totalIngresos = transacciones.stream()
                 .filter(t -> t.tipo() == TipoTransaccion.INGRESO)

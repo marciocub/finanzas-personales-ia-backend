@@ -2,7 +2,7 @@ package com.finanzas.infrastructure.out.db.repository;
 
 import com.finanzas.domain.enumeration.Categoria;
 import com.finanzas.domain.enumeration.TipoTransaccion;
-import com.finanzas.infrastructure.out.db.entity.TransaccionEntidadJpa;
+import com.finanzas.infrastructure.out.db.entity.TransaccionJpaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -11,12 +11,12 @@ import org.springframework.data.repository.query.Param;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public interface TransaccionRepositorioJpa extends JpaRepository<TransaccionEntidadJpa, Long>,
-        JpaSpecificationExecutor<TransaccionEntidadJpa> {
+public interface TransaccionRepository extends JpaRepository<TransaccionJpaEntity, Long>,
+        JpaSpecificationExecutor<TransaccionJpaEntity> {
 
     @Query("""
             SELECT COALESCE(SUM(t.monto), 0)
-            FROM TransaccionEntidadJpa t
+            FROM TransaccionJpaEntity t
             WHERE t.usuarioId = :usuarioId
               AND t.categoria = :categoria
               AND t.tipo = :tipo

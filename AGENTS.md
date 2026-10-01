@@ -1,8 +1,8 @@
 # CREAR AGENTS.MD - REGLAS DEL AGENTE
 
-1. Todo el código (clases, métodos, variables, comentarios) DEBE ser en ESPAÑOL.
+1. Todo el código (métodos, variables, comentarios y nombres de negocio) DEBE ser en ESPAÑOL. Los términos arquitectónicos se escriben en INGLÉS: `UseCase`, `OutPort`, `InPort`, `Service`, `Controller`, `Adapter`, `JpaEntity`, `Repository`, `Mapper` y `Application`.
 2. La carpeta `domain/` NUNCA debe importar nada de Spring, JPA, Hibernate o Lombok.
-3. Las entidades JPA (`*EntidadJpa`) viven solo en `infrastructure/out/db/entity/`.
+3. Las entidades JPA (`*JpaEntity`) viven solo en `infrastructure/out/db/entity/`.
 4. Todas las interfaces de puertos van en `application/port/in/` o `application/port/out/`.
 5. Los puertos de salida reciben DTOs o modelos de dominio, nunca tipos de Spring (`Specification`, `Pageable` de infraestructura, etc.).
 6. MapStruct vive en `infrastructure/mapper/`. Nunca se expone una entidad JPA al dominio ni a los controladores.

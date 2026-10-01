@@ -5,7 +5,7 @@ import com.finanzas.domain.model.Presupuesto;
 
 import java.util.List;
 
-public interface GestionarPresupuestoCasoUso {
+public interface GestionarPresupuestoUseCase {
     Presupuesto crear(ComandoCrearPresupuesto comando);
 
     List<Presupuesto> listarPorUsuario(Long usuarioId);

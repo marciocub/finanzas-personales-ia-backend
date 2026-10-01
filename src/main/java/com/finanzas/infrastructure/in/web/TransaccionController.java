@@ -2,8 +2,8 @@ package com.finanzas.infrastructure.in.web;
 
 import com.finanzas.application.dto.ComandoCrearTransaccion;
 import com.finanzas.application.dto.CriterioFiltroTransaccion;
-import com.finanzas.application.port.in.CrearTransaccionCasoUso;
-import com.finanzas.application.port.in.ObtenerResumenTransaccionesCasoUso;
+import com.finanzas.application.port.in.CrearTransaccionUseCase;
+import com.finanzas.application.port.in.ObtenerResumenTransaccionesUseCase;
 import com.finanzas.domain.enumeration.Categoria;
 import com.finanzas.domain.enumeration.TipoTransaccion;
 import com.finanzas.infrastructure.in.web.dto.RespuestaResumenTransacciones;
@@ -30,10 +30,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/transacciones")
 @RequiredArgsConstructor
-public class TransaccionControlador {
+public class TransaccionController {
 
-    private final CrearTransaccionCasoUso crearTransaccionCasoUso;
-    private final ObtenerResumenTransaccionesCasoUso obtenerResumenTransaccionesCasoUso;
+    private final CrearTransaccionUseCase crearTransaccionUseCase;
+    private final ObtenerResumenTransaccionesUseCase obtenerResumenTransaccionesUseCase;
     private final TransaccionWebMapper transaccionWebMapper;
 
     @PostMapping
@@ -51,7 +51,7 @@ public class TransaccionControlador {
                 solicitud.fecha(),
                 solicitud.descripcion()
         );
-        return transaccionWebMapper.aRespuesta(crearTransaccionCasoUso.ejecutar(comando));
+        return transaccionWebMapper.aRespuesta(crearTransaccionUseCase.ejecutar(comando));
     }
 
     @GetMapping
@@ -67,7 +67,7 @@ public class TransaccionControlador {
         var criterio = new CriterioFiltroTransaccion(
                 usuario.id(), fechaDesde, fechaHasta, categoria, tipo, montoMinimo, montoMaximo
         );
-        return obtenerResumenTransaccionesCasoUso.ejecutar(criterio)
+        return obtenerResumenTransaccionesUseCase.ejecutar(criterio)
                 .transacciones()
                 .stream()
                 .map(transaccionWebMapper::aRespuesta)
@@ -85,6 +85,6 @@ public class TransaccionControlador {
         var criterio = new CriterioFiltroTransaccion(
                 usuario.id(), fechaDesde, fechaHasta, categoria, tipo, null, null
         );
-        return transaccionWebMapper.aRespuestaResumen(obtenerResumenTransaccionesCasoUso.ejecutar(criterio));
+        return transaccionWebMapper.aRespuestaResumen(obtenerResumenTransaccionesUseCase.ejecutar(criterio));
     }
 }

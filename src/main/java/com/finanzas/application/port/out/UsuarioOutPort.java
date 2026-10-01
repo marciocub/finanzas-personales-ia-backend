@@ -4,7 +4,7 @@ import com.finanzas.domain.model.Usuario;
 
 import java.util.Optional;
 
-public interface UsuarioPuertoSalida {
+public interface UsuarioOutPort {
     Usuario guardar(Usuario usuario);
 
     Optional<Usuario> buscarPorCorreo(String correo);

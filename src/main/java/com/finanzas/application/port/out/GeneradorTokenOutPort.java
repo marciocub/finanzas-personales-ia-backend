@@ -1,5 +1,5 @@
 package com.finanzas.application.port.out;
 
-public interface GeneradorTokenPuertoSalida {
+public interface GeneradorTokenOutPort {
     String generar(Long usuarioId, String correo);
 }

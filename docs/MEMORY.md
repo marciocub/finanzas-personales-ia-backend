@@ -7,6 +7,7 @@ Gestor de finanzas personales con arquitectura hexagonal. Backend Java 21 / Spri
 ## Decisiones
 
 - Paquete raíz: `com.finanzas`.
+- Convención de nombres: los términos de negocio y los DTOs se escriben en español; los términos arquitectónicos se escriben en inglés (`*UseCase`, `*OutPort`, `*Service`, `*Controller`, `*DbAdapter`, `*JpaEntity`, `*Repository`, `*Mapper`, `Application`).
 - El dominio usa records y clases inmutables sin Lombok.
 - `Dinero` es un value object con `BigDecimal` y `Moneda`; las operaciones fallan si las monedas no coinciden.
 - Un presupuesto se evalúa contra el total de gastos de la misma categoría y usuario en el período. Si el nuevo gasto lo excede, se lanza `PresupuestoExcedidoException` (HTTP 409 en infraestructura).

@@ -1,13 +1,13 @@
 package com.finanzas.infrastructure.security;
 
-import com.finanzas.application.port.out.EncriptadorClavePuertoSalida;
+import com.finanzas.application.port.out.EncriptadorClaveOutPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class EncriptadorClaveAdaptador implements EncriptadorClavePuertoSalida {
+public class EncriptadorClaveAdapter implements EncriptadorClaveOutPort {
 
     private final PasswordEncoder passwordEncoder;
 

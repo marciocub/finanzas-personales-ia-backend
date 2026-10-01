@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public interface PresupuestoPuertoSalida {
+public interface PresupuestoOutPort {
     Presupuesto guardar(Presupuesto presupuesto);
 
     List<Presupuesto> buscarPorUsuario(Long usuarioId);

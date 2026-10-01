@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UsuarioEntidadJpa {
+public class UsuarioJpaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
