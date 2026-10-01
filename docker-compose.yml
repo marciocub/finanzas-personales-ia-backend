@@ -1,0 +1,54 @@
+services:
+  mysql-db-finanzas-personales:
+    image: mysql:8.0
+    container_name: mysql-db-finanzas-personales
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: finanzas_personales
+      MYSQL_USER: finanzas
+      MYSQL_PASSWORD: finanzas
+    ports:
+      - "3310:3306"
+    volumes:
+      - volumen_mysql_finanzas:/var/lib/mysql
+      - ./finanzas-backend/src/main/resources/db/script-creacion.sql:/docker-entrypoint-initdb.d/01-script-creacion.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./finanzas-backend
+      dockerfile: Dockerfile
+    container_name: finanzas-backend
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db-finanzas-personales:3306/finanzas_personales?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: finanzas
+      SPRING_DATASOURCE_PASSWORD: finanzas
+      JWT_SECRETO: clave-secreta-jwt-finanzas-personales-cambiar-en-produccion-32b
+      JWT_EXPIRACION_MS: 86400000
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql-db-finanzas-personales:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./finanzas-frontend
+      dockerfile: Dockerfile
+    container_name: finanzas-frontend
+    restart: unless-stopped
+    environment:
+      VITE_API_URL: http://localhost:8080
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  volumen_mysql_finanzas:

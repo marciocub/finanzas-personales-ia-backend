@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: finanzas-backend
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3310/finanzas_personales?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: ${SPRING_DATASOURCE_USERNAME:finanzas}
+    password: ${SPRING_DATASOURCE_PASSWORD:finanzas}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+server:
+  port: 8080
+
+jwt:
+  secreto: ${JWT_SECRETO:clave-secreta-jwt-finanzas-personales-cambiar-en-produccion-32b}
+  expiracion-ms: ${JWT_EXPIRACION_MS:86400000}
+
+logging:
+  level:
+    com.finanzas: INFO
